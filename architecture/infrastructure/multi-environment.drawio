@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="Architecture Template" version="22.0.0" type="device">
+  <diagram name="Multi Environment" id="multi-env">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Multi-Environment High Availability Deployment" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="20" width="500" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Internet / CDN -->
+        <mxCell id="internet" value="Internet / CDN" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fed7aa;strokeColor=#f97316;" vertex="1" parent="1">
+          <mxGeometry x="600" y="60" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Global Load Balancer -->
+        <mxCell id="glb" value="Global Load Balancer&#xa;(Route 53 / Cloud LB)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#3b82f6;" vertex="1" parent="1">
+          <mxGeometry x="590" y="150" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Availability Zone 1 -->
+        <mxCell id="az1" value="Availability Zone 1 (Primary)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#059669;fontStyle=1;startSize=25;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="230" width="420" height="720" as="geometry" />
+        </mxCell>
+
+        <!-- AZ1 Load Balancer -->
+        <mxCell id="az1-lb" value="Load Balancer&#xa;(Active)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#3b82f6;" vertex="1" parent="az1">
+          <mxGeometry x="140" y="40" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- AZ1 App Servers -->
+        <mxCell id="az1-apps" value="Application Servers" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;startSize=20;" vertex="1" parent="az1">
+          <mxGeometry x="20" y="110" width="380" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="az1-app1" value="App 1&#xa;4C/8G" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="az1-apps">
+          <mxGeometry x="20" y="30" width="80" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="az1-app2" value="App 2&#xa;4C/8G" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="az1-apps">
+          <mxGeometry x="110" y="30" width="80" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="az1-app3" value="App 3&#xa;4C/8G" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="az1-apps">
+          <mxGeometry x="200" y="30" width="80" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="az1-app4" value="App 4&#xa;4C/8G" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="az1-apps">
+          <mxGeometry x="290" y="30" width="80" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- AZ1 Database -->
+        <mxCell id="az1-db" value="Database" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#10b981;startSize=20;" vertex="1" parent="az1">
+          <mxGeometry x="20" y="250" width="180" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="az1-db-primary" value="PostgreSQL&#xa;Primary&#xa;8C/32G/500G" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#336791;strokeColor=#1e4a6e;fontColor=#ffffff;" vertex="1" parent="az1-db">
+          <mxGeometry x="40" y="25" width="100" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- AZ1 Cache -->
+        <mxCell id="az1-cache" value="Cache" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#f59e0b;startSize=20;" vertex="1" parent="az1">
+          <mxGeometry x="220" y="250" width="180" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="az1-redis" value="Redis&#xa;Primary&#xa;4C/16G" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#dc382d;strokeColor=#a52a2a;fontColor=#ffffff;" vertex="1" parent="az1-cache">
+          <mxGeometry x="40" y="25" width="100" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- AZ1 Search -->
+        <mxCell id="az1-search" value="Search Cluster" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#10b981;startSize=20;" vertex="1" parent="az1">
+          <mxGeometry x="20" y="390" width="380" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="az1-es1" value="ES Master&#xa;4C/8G" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#fed10a;strokeColor=#d4a90a;" vertex="1" parent="az1-search">
+          <mxGeometry x="30" y="25" width="90" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="az1-es2" value="ES Data&#xa;8C/16G" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="az1-search">
+          <mxGeometry x="145" y="25" width="90" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="az1-es3" value="ES Data&#xa;8C/16G" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="az1-search">
+          <mxGeometry x="260" y="25" width="90" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- AZ1 Queue -->
+        <mxCell id="az1-queue" value="Message Queue" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fce7f3;strokeColor=#ec4899;startSize=20;" vertex="1" parent="az1">
+          <mxGeometry x="20" y="510" width="380" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="az1-mq1" value="RabbitMQ 1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce7f3;strokeColor=#ec4899;" vertex="1" parent="az1-queue">
+          <mxGeometry x="30" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="az1-mq2" value="RabbitMQ 2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce7f3;strokeColor=#ec4899;" vertex="1" parent="az1-queue">
+          <mxGeometry x="145" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="az1-mq3" value="RabbitMQ 3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce7f3;strokeColor=#ec4899;" vertex="1" parent="az1-queue">
+          <mxGeometry x="260" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- AZ1 Workers -->
+        <mxCell id="az1-workers" value="Workers" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;startSize=20;" vertex="1" parent="az1">
+          <mxGeometry x="20" y="610" width="380" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="az1-w1" value="Worker 1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="az1-workers">
+          <mxGeometry x="30" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="az1-w2" value="Worker 2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="az1-workers">
+          <mxGeometry x="145" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="az1-w3" value="Worker 3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="az1-workers">
+          <mxGeometry x="260" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Availability Zone 2 -->
+        <mxCell id="az2" value="Availability Zone 2 (Secondary)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#3b82f6;fontStyle=1;startSize=25;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="230" width="420" height="720" as="geometry" />
+        </mxCell>
+
+        <!-- AZ2 Load Balancer -->
+        <mxCell id="az2-lb" value="Load Balancer&#xa;(Active)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#3b82f6;" vertex="1" parent="az2">
+          <mxGeometry x="140" y="40" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- AZ2 App Servers -->
+        <mxCell id="az2-apps" value="Application Servers" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;startSize=20;" vertex="1" parent="az2">
+          <mxGeometry x="20" y="110" width="380" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="az2-app1" value="App 5&#xa;4C/8G" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="az2-apps">
+          <mxGeometry x="20" y="30" width="80" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="az2-app2" value="App 6&#xa;4C/8G" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="az2-apps">
+          <mxGeometry x="110" y="30" width="80" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="az2-app3" value="App 7&#xa;4C/8G" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="az2-apps">
+          <mxGeometry x="200" y="30" width="80" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="az2-app4" value="App 8&#xa;4C/8G" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="az2-apps">
+          <mxGeometry x="290" y="30" width="80" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- AZ2 Database -->
+        <mxCell id="az2-db" value="Database" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#10b981;startSize=20;" vertex="1" parent="az2">
+          <mxGeometry x="20" y="250" width="180" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="az2-db-replica" value="PostgreSQL&#xa;Replica&#xa;8C/32G/500G" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="az2-db">
+          <mxGeometry x="40" y="25" width="100" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- AZ2 Cache -->
+        <mxCell id="az2-cache" value="Cache" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#f59e0b;startSize=20;" vertex="1" parent="az2">
+          <mxGeometry x="220" y="250" width="180" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="az2-redis" value="Redis&#xa;Replica&#xa;4C/16G" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#fef3c7;strokeColor=#f59e0b;" vertex="1" parent="az2-cache">
+          <mxGeometry x="40" y="25" width="100" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- AZ2 Search (continues) -->
+        <mxCell id="az2-search" value="Search Cluster" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#10b981;startSize=20;" vertex="1" parent="az2">
+          <mxGeometry x="20" y="390" width="380" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="az2-es1" value="ES Master&#xa;4C/8G" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#fed10a;strokeColor=#d4a90a;" vertex="1" parent="az2-search">
+          <mxGeometry x="30" y="25" width="90" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="az2-es2" value="ES Data&#xa;8C/16G" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="az2-search">
+          <mxGeometry x="145" y="25" width="90" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="az2-es3" value="ES Data&#xa;8C/16G" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="az2-search">
+          <mxGeometry x="260" y="25" width="90" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- AZ2 Workers -->
+        <mxCell id="az2-workers" value="Workers" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;startSize=20;" vertex="1" parent="az2">
+          <mxGeometry x="20" y="510" width="380" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="az2-w1" value="Worker 4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="az2-workers">
+          <mxGeometry x="70" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="az2-w2" value="Worker 5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="az2-workers">
+          <mxGeometry x="200" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Shared Services -->
+        <mxCell id="shared" value="Shared Services" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;fontStyle=1;startSize=25;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="920" y="230" width="180" height="720" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s3" value="Object Storage&#xa;(S3/MinIO)&#xa;Multi-Region" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="shared">
+          <mxGeometry x="30" y="50" width="120" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="monitoring" value="Monitoring" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;startSize=20;" vertex="1" parent="shared">
+          <mxGeometry x="15" y="180" width="150" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="prom" value="Prometheus" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;" vertex="1" parent="monitoring">
+          <mxGeometry x="25" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="graf" value="Grafana" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;" vertex="1" parent="monitoring">
+          <mxGeometry x="25" y="80" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="alert" value="Alertmanager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;" vertex="1" parent="monitoring">
+          <mxGeometry x="25" y="130" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="logging" value="Logging" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;startSize=20;" vertex="1" parent="shared">
+          <mxGeometry x="15" y="390" width="150" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="loki" value="Loki" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;" vertex="1" parent="logging">
+          <mxGeometry x="25" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="jaeger" value="Jaeger" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;" vertex="1" parent="logging">
+          <mxGeometry x="25" y="80" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cicd" value="CI/CD" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;startSize=20;" vertex="1" parent="shared">
+          <mxGeometry x="15" y="550" width="150" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="actions" value="GitHub Actions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;" vertex="1" parent="cicd">
+          <mxGeometry x="25" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Cross-AZ Replication Arrows -->
+        <mxCell id="db-repl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=3;" edge="1" parent="1" source="az1-db-primary" target="az2-db-replica">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="redis-repl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#f59e0b;strokeWidth=2;" edge="1" parent="1" source="az1-redis" target="az2-redis">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Internet connections -->
+        <mxCell id="inet-glb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9ca3af;strokeWidth=2;dashed=1;" edge="1" parent="1" source="internet" target="glb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="glb-az1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#374151;strokeWidth=2;" edge="1" parent="1" source="glb" target="az1-lb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="glb-az2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#374151;strokeWidth=2;" edge="1" parent="1" source="glb" target="az2-lb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

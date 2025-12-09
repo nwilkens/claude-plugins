@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="Architecture Template" version="22.0.0" type="device">
+  <diagram name="Data Tier" id="data-tier-detail">
+    <mxGraphModel dx="1200" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Data Tier - Component Details" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="400" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- From Business Tier -->
+        <mxCell id="from-business" value="From Business Tier" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#e9d5ff;strokeColor=#8b5cf6;" vertex="1" parent="1">
+          <mxGeometry x="420" y="55" width="160" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Main Container -->
+        <mxCell id="data-container" value="DATA TIER" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#10b981;fontStyle=1;startSize=30;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="100" width="1000" height="550" as="geometry" />
+        </mxCell>
+
+        <!-- Primary Database Section -->
+        <mxCell id="db-section" value="Relational Database Cluster" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#10b981;startSize=25;" vertex="1" parent="data-container">
+          <mxGeometry x="20" y="40" width="450" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="primary-db" value="Primary&#xa;(PostgreSQL)&#xa;8 CPU / 32GB&#xa;Read + Write" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#336791;strokeColor=#1e4a6e;fontColor=#ffffff;" vertex="1" parent="db-section">
+          <mxGeometry x="170" y="35" width="110" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="replica1" value="Replica 1&#xa;(PostgreSQL)&#xa;Read Only" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="db-section">
+          <mxGeometry x="30" y="140" width="110" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="replica2" value="Replica 2&#xa;(PostgreSQL)&#xa;Read Only" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="db-section">
+          <mxGeometry x="170" y="140" width="110" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="replica3" value="Replica 3&#xa;(PostgreSQL)&#xa;Read Only" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="db-section">
+          <mxGeometry x="310" y="140" width="110" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Replication arrows -->
+        <mxCell id="repl1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=2;dashed=0;" edge="1" parent="db-section" source="primary-db" target="replica1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="repl2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=2;dashed=0;" edge="1" parent="db-section" source="primary-db" target="replica2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="repl3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=2;dashed=0;" edge="1" parent="db-section" source="primary-db" target="replica3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Cache Section -->
+        <mxCell id="cache-section" value="Caching Layer" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#f59e0b;startSize=25;" vertex="1" parent="data-container">
+          <mxGeometry x="490" y="40" width="490" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="redis-primary" value="Redis Primary&#xa;(Cluster Mode)&#xa;4 CPU / 16GB" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dc382d;strokeColor=#a52a2a;fontColor=#ffffff;" vertex="1" parent="cache-section">
+          <mxGeometry x="30" y="35" width="130" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="redis-replica" value="Redis Replica&#xa;(Hot Standby)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#fef3c7;strokeColor=#f59e0b;" vertex="1" parent="cache-section">
+          <mxGeometry x="180" y="35" width="130" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="memcached" value="Memcached&#xa;(Session Store)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#fef3c7;strokeColor=#f59e0b;" vertex="1" parent="cache-section">
+          <mxGeometry x="340" y="35" width="130" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Search Section -->
+        <mxCell id="search-section" value="Search &amp; Analytics" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#10b981;startSize=25;" vertex="1" parent="data-container">
+          <mxGeometry x="490" y="170" width="490" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="es-master" value="Elasticsearch&#xa;Master Node" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#fed10a;strokeColor=#d4a90a;" vertex="1" parent="search-section">
+          <mxGeometry x="30" y="35" width="100" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="es-data1" value="ES Data 1&#xa;(Hot)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="search-section">
+          <mxGeometry x="150" y="35" width="100" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="es-data2" value="ES Data 2&#xa;(Hot)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="search-section">
+          <mxGeometry x="260" y="35" width="100" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="es-data3" value="ES Data 3&#xa;(Warm)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="search-section">
+          <mxGeometry x="370" y="35" width="100" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Object Storage Section -->
+        <mxCell id="storage-section" value="Object Storage" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#10b981;startSize=25;" vertex="1" parent="data-container">
+          <mxGeometry x="20" y="280" width="300" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s3" value="S3 / MinIO&#xa;(Primary)&#xa;Unlimited Scale" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="storage-section">
+          <mxGeometry x="30" y="35" width="110" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cdn" value="CDN&#xa;(CloudFront)&#xa;Edge Caching" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fed7aa;strokeColor=#f97316;" vertex="1" parent="storage-section">
+          <mxGeometry x="165" y="45" width="110" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Time Series Section -->
+        <mxCell id="ts-section" value="Time Series / Metrics" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#10b981;startSize=25;" vertex="1" parent="data-container">
+          <mxGeometry x="340" y="280" width="300" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="influx" value="InfluxDB&#xa;(Metrics)&#xa;30 day retention" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="ts-section">
+          <mxGeometry x="30" y="35" width="110" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="prometheus-db" value="Prometheus&#xa;(Short-term)&#xa;15 day retention" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="ts-section">
+          <mxGeometry x="165" y="35" width="110" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Backup Section -->
+        <mxCell id="backup-section" value="Backup &amp; Archive" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;startSize=25;" vertex="1" parent="data-container">
+          <mxGeometry x="660" y="280" width="320" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="backup-db" value="DB Backups&#xa;(Daily Full + WAL)&#xa;S3 Glacier" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f1f5f9;strokeColor=#64748b;" vertex="1" parent="backup-section">
+          <mxGeometry x="30" y="35" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="archive" value="Long-term Archive&#xa;(7 year retention)&#xa;S3 Deep Archive" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f1f5f9;strokeColor=#64748b;" vertex="1" parent="backup-section">
+          <mxGeometry x="175" y="35" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Connection Pooling -->
+        <mxCell id="pool-section" value="Connection Management" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#10b981;startSize=25;" vertex="1" parent="data-container">
+          <mxGeometry x="20" y="430" width="960" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pgbouncer" value="PgBouncer&#xa;(Connection Pool)&#xa;1000 connections" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="pool-section">
+          <mxGeometry x="30" y="35" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="haproxy-db" value="HAProxy&#xa;(Read/Write Split)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="pool-section">
+          <mxGeometry x="200" y="35" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="redis-sentinel" value="Redis Sentinel&#xa;(Failover)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#f59e0b;" vertex="1" parent="pool-section">
+          <mxGeometry x="370" y="35" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="vault-db" value="Vault&#xa;(Dynamic Credentials)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;" vertex="1" parent="pool-section">
+          <mxGeometry x="540" y="35" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="replication-mgr" value="Patroni&#xa;(HA Management)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#10b981;" vertex="1" parent="pool-section">
+          <mxGeometry x="710" y="35" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Flow arrow -->
+        <mxCell id="flow-in" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#374151;strokeWidth=2;" edge="1" parent="1" source="from-business" target="data-container">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

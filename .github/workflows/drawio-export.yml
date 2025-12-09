@@ -1,0 +1,56 @@
+name: Export Draw.io Diagrams
+
+on:
+  push:
+    paths:
+      - '**/*.drawio'
+  pull_request:
+    paths:
+      - '**/*.drawio'
+  workflow_dispatch:
+
+jobs:
+  export-drawio:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Export Draw.io diagrams to PNG
+        uses: rlespinasse/drawio-export-action@v2
+        with:
+          path: .
+          format: png
+          transparent: false
+          border: 10
+          output: .
+          remove-page-suffix: true
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git add -A
+          if git diff --staged --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit exported PNGs
+        if: steps.changes.outputs.changes == 'true' && github.event_name == 'push'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "Auto-export: Update PNG files from drawio sources"
+          git push
+
+      - name: Upload PNG artifacts (for PR review)
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: exported-diagrams
+          path: '**/*.png'
+          retention-days: 7
