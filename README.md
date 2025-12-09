@@ -27,13 +27,13 @@ Create professional software architecture documentation with .drawio diagrams.
 Add this repository as a Claude Code marketplace:
 
 ```bash
-/plugin marketplace add /path/to/this/repo
+/plugin marketplace add nwilkens/claude-plugins
 ```
 
 Then install individual plugins:
 
 ```bash
-/plugin install software-architecture-diagram@local
+/plugin install software-architecture-diagram@claude-plugins
 ```
 
 ### Manual Installation
