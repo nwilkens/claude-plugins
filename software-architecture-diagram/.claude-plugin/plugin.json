@@ -1,0 +1,15 @@
+{
+  "name": "software-architecture-diagram",
+  "description": "Create professional software architecture documentation with .drawio diagrams. Provides templates, color schemes, and best practices for three-tier architecture documentation.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Architecture Docs Template"
+  },
+  "keywords": [
+    "architecture",
+    "diagrams",
+    "drawio",
+    "documentation",
+    "three-tier"
+  ]
+}

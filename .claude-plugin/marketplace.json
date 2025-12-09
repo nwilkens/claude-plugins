@@ -1,0 +1,13 @@
+{
+  "name": "architecture-plugins",
+  "owner": {
+    "name": "Architecture Docs"
+  },
+  "plugins": [
+    {
+      "name": "software-architecture-diagram",
+      "source": "./software-architecture-diagram",
+      "description": "Create professional software architecture documentation with .drawio diagrams"
+    }
+  ]
+}
