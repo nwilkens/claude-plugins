@@ -4,6 +4,21 @@ A collection of Claude Code plugins for software development workflows.
 
 ## Available Plugins
 
+### postgresql-dba
+
+PostgreSQL database administration toolkit for performance analysis and optimization.
+
+**Features:**
+- Systematic performance investigation workflow
+- Comprehensive diagnostic queries (bloat, indexes, locks, connections)
+- Query optimization patterns and examples
+- Index strategy recommendations
+- Configuration tuning best practices
+
+**Location:** `postgresql-dba/`
+
+[View plugin documentation](./postgresql-dba/README.md)
+
 ### software-architecture-diagram
 
 Create professional software architecture documentation with .drawio diagrams.

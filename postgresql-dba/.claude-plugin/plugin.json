@@ -1,0 +1,18 @@
+{
+  "name": "postgresql-dba",
+  "description": "PostgreSQL Database Administration toolkit for performance analysis, diagnostics, and optimization. Provides systematic workflows for investigating slow queries, bloat, locks, and index usage.",
+  "version": "1.0.0",
+  "author": {
+    "name": "nwilkens"
+  },
+  "keywords": [
+    "postgresql",
+    "postgres",
+    "dba",
+    "database",
+    "performance",
+    "diagnostics",
+    "optimization",
+    "sql"
+  ]
+}
