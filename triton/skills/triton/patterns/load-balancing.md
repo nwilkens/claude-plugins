@@ -272,6 +272,7 @@ cat /var/svc/log/haproxy:default.log
 2. Check portmap syntax is correct
 3. Verify CNS service name resolves: `dig SERVICE.svc.ACCOUNT.DC.cns.mnx.io`
 4. Check firewall rules allow traffic
+5. **HAProxy may not be running** - SSH to LB and run `svcadm restart haproxy`
 
 ### Backends Not Discovered
 1. Verify backend instances have `triton.cns.services` tag
@@ -283,6 +284,53 @@ cat /var/svc/log/haproxy:default.log
 1. Ensure DNS points to LB before requesting Let's Encrypt cert
 2. Check certificate_name matches your domain exactly
 3. SSH to LB and check `/opt/triton/dehydrated/` for logs
+
+### Let's Encrypt Certificate Not Being Used (Self-Signed Instead)
+
+**Symptom:** HTTPS works but browser shows self-signed certificate warning, even though Let's Encrypt certificate was issued.
+
+**Cause:** The HAProxy config uses `/opt/triton/tls/default/fullchain.pem`, but the `default` symlink points to the self-signed certificate directory instead of the Let's Encrypt certificate.
+
+**Fix:**
+```bash
+LB_IP=<your-load-balancer-ip>
+DOMAIN=<your-certificate-domain>  # e.g., www.svc.account.dc.parlercloud.net
+
+ssh root@$LB_IP "
+  # Verify Let's Encrypt cert exists
+  ls -la /opt/triton/tls/\$DOMAIN/
+
+  # Update symlink to use Let's Encrypt cert
+  rm -f /opt/triton/tls/default
+  ln -s /opt/triton/tls/${DOMAIN} /opt/triton/tls/default
+
+  # Restart HAProxy to load new cert
+  svcadm restart haproxy
+"
+
+# Verify certificate is now correct
+curl -v https://$DOMAIN/ 2>&1 | grep -E "subject:|issuer:"
+# Should show: issuer: C=US; O=Let's Encrypt; CN=...
+```
+
+**Prevention:** After creating a load balancer with `certificate_name`, wait 1-2 minutes for the certificate to be issued, then run the symlink fix.
+
+### HAProxy Not Listening After Metadata Update
+
+After updating metadata (portmap, certificate_name), HAProxy may not automatically reload:
+
+```bash
+ssh root@$LB_IP "
+  # Trigger reconfiguration
+  /opt/triton/clb/reconfigure
+
+  # If that doesn't work, restart HAProxy
+  svcadm restart haproxy
+
+  # Verify listening
+  netstat -an | grep LISTEN | grep -E ':80|:443'
+"
+```
 
 ## Best Practices
 

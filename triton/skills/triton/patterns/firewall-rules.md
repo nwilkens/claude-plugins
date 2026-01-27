@@ -41,10 +41,24 @@ FROM <source> TO <target> <action> <protocol> PORT <port>
 | Syntax | Description |
 |--------|-------------|
 | `PORT 80` | Single port |
-| `PORT 80,443` | Multiple ports |
-| `PORT 1:1024` | Port range |
 | `PORT all` | All ports |
-| `(PORT 80 AND PORT 443)` | Multiple ports (alternative) |
+| `(PORT 80 AND PORT 443)` | Multiple specific ports |
+
+> **WARNING: Port Ranges Are NOT Supported**
+>
+> Despite what some documentation suggests, Triton firewall does **not** support port range syntax like `PORT 1:1024` or `PORT 30000-32767`. These will either fail or be interpreted incorrectly.
+>
+> **What works:**
+> - `PORT 80` - Single port
+> - `PORT all` - All ports
+> - `(PORT 80 AND PORT 443)` - Specific multiple ports (limited)
+>
+> **What does NOT work:**
+> - `PORT 1:1024` - Range syntax
+> - `PORT 30000-32767` - Dash range syntax
+> - `(PORT >= 30000 AND PORT <= 32767)` - Comparison operators
+>
+> **Workaround:** Create individual rules for each port you need, or use `PORT all` for internal cluster communication where appropriate.
 
 ## Creating Rules
 

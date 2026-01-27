@@ -50,28 +50,74 @@ triton instance tag set myinstance triton.cns.services=web:8080:priority=10:weig
 
 ## DNS Naming Patterns
 
-### Instance DNS Name
-Each instance gets a unique DNS name:
+### Important: Two DNS Zones (Public vs Private)
 
+Triton CNS provides **two different DNS zones** that resolve to different IPs:
+
+| Zone Type | Domain Pattern | Resolves To | Use Case |
+|-----------|----------------|-------------|----------|
+| **Private** | `*.cns.<provider>.zone` | Fabric/Private IPs | Internal service communication |
+| **Public** | `*.<provider>.net` | Public IPs | External access, Let's Encrypt |
+
+**Example (Parler Cloud):**
+```bash
+# Private zone - returns fabric IP (192.168.x.x)
+dig web.svc.ACCOUNT.us-central-1a.cns.parlercloud.zone
+# Returns: 192.168.128.50
+
+# Public zone - returns public IP (142.x.x.x)
+dig web.svc.ACCOUNT.us-central-1a.parlercloud.net
+# Returns: 142.147.4.50
 ```
-<instance-name>.inst.<account-uuid>.<datacenter>.cns.mnx.io
+
+**When to use each:**
+- **Private zone (`.cns.*.zone`)**: Load balancer backends, internal services, database connections
+- **Public zone (`.*.net`)**: Let's Encrypt certificates, external DNS, public-facing services
+
+> **WARNING:** Using the private zone for Let's Encrypt `certificate_name` will fail because Let's Encrypt cannot reach private IPs for domain validation.
+
+### Instance DNS Name
+Each instance gets DNS names in both zones:
+
+**Private zone:**
+```
+<instance-name>.inst.<account-uuid>.<datacenter>.cns.<provider>.zone
+```
+
+**Public zone:**
+```
+<instance-name>.inst.<account-uuid>.<datacenter>.<provider>.net
 ```
 
 Example:
 ```
-web-01.inst.a1b2c3d4-e5f6-7890-abcd-ef1234567890.us-central-1.cns.mnx.io
+# Private (fabric IP)
+web-01.inst.a1b2c3d4-e5f6-7890-abcd-ef1234567890.us-central-1.cns.parlercloud.zone
+
+# Public (public IP)
+web-01.inst.a1b2c3d4-e5f6-7890-abcd-ef1234567890.us-central-1.parlercloud.net
 ```
 
 ### Service DNS Name
-Services are accessible via:
+Services are accessible via both zones:
 
+**Private zone:**
 ```
-<service-name>.svc.<account-uuid>.<datacenter>.cns.mnx.io
+<service-name>.svc.<account-uuid>.<datacenter>.cns.<provider>.zone
+```
+
+**Public zone:**
+```
+<service-name>.svc.<account-uuid>.<datacenter>.<provider>.net
 ```
 
 Example:
 ```
-web.svc.a1b2c3d4-e5f6-7890-abcd-ef1234567890.us-central-1.cns.mnx.io
+# Private (fabric IPs of all instances in service)
+web.svc.a1b2c3d4-e5f6-7890-abcd-ef1234567890.us-central-1.cns.parlercloud.zone
+
+# Public (public IPs of all instances in service)
+web.svc.a1b2c3d4-e5f6-7890-abcd-ef1234567890.us-central-1.parlercloud.net
 ```
 
 ### SRV Records
