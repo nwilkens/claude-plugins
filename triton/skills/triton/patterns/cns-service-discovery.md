@@ -76,6 +76,76 @@ dig web.svc.ACCOUNT.us-central-1a.parlercloud.net
 
 > **WARNING:** Using the private zone for Let's Encrypt `certificate_name` will fail because Let's Encrypt cannot reach private IPs for domain validation.
 
+### Discovering DNS Suffixes Programmatically
+
+Rather than hardcoding zone suffixes, you can discover them from instance metadata or network configuration.
+
+#### Method 1: From Instance DNS Names
+
+Each instance exposes its DNS names, which include both public and private suffixes:
+
+```bash
+# Get all DNS names for an instance
+triton instance get myinstance -j | jq -r '.dns_names[]'
+
+# Example output:
+# myinstance.inst.ACCOUNT.us-central-1a.parlercloud.net          (public)
+# myinstance.inst.ACCOUNT.us-central-1a.cns.parlercloud.zone     (private)
+# myservice.svc.ACCOUNT.us-central-1a.parlercloud.net            (public service)
+# myservice.svc.ACCOUNT.us-central-1a.cns.parlercloud.zone       (private service)
+```
+
+#### Method 2: From Network Configuration
+
+The `suffixes` field on networks tells you which DNS search domains apply:
+
+```bash
+# Get network details including DNS suffixes
+triton network get <network-uuid> -j | jq '.suffixes'
+
+# Check if a network is public or private
+triton network get <network-uuid> -j | jq '.public'
+# Returns: true (public network) or false (private/fabric network)
+```
+
+#### Method 3: Parse from Instance Metadata (Inside VM)
+
+From within a Triton instance, you can discover suffixes via metadata:
+
+```bash
+# Get instance UUID
+INST_UUID=$(mdata-get sdc:uuid)
+
+# Get account UUID
+ACCOUNT_UUID=$(mdata-get sdc:account_uuid)
+
+# Get datacenter
+DATACENTER=$(mdata-get sdc:datacenter)
+
+# The DNS names are available in resolv.conf search domains
+cat /etc/resolv.conf | grep search
+```
+
+#### Determining Zone Visibility
+
+To programmatically determine if a zone suffix is for public or private IPs:
+
+1. **Get the network UUID** from the instance or CNS config
+2. **Query the network** to check its `public` field
+
+```bash
+# List networks and their public/private status
+triton network list -j | jq '.[] | {name, id, public}'
+
+# Check a specific network
+triton network get My-Fabric-Network -j | jq '{name, public, subnet}'
+# Returns: {"name": "My-Fabric-Network", "public": false, "subnet": "192.168.128.0/22"}
+```
+
+**Rule of thumb:**
+- Networks with `"public": true` → DNS resolves to routable public IPs
+- Networks with `"public": false` → DNS resolves to fabric/private IPs
+
 ### Instance DNS Name
 Each instance gets DNS names in both zones:
 
