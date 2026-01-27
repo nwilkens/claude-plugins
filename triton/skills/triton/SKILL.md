@@ -18,6 +18,8 @@ Use this skill when:
 - Creating and mounting volumes for persistent storage
 - Managing SSH keys and account settings
 - Scaling infrastructure horizontally
+- Automating instance provisioning with user-scripts
+- Deploying Kubernetes (k3s) clusters
 
 ## Prerequisites
 
@@ -120,6 +122,20 @@ triton fwrule create -D "allow-https" \
   "FROM any TO tag role=web ALLOW tcp PORT 443"
 ```
 
+### Provision Instance with User-Script
+```bash
+triton instance create \
+  -n app-server \
+  -m "user-script=#!/bin/bash
+set -e
+cloud-init status --wait
+apt-get update && apt-get install -y docker.io
+systemctl enable docker
+" \
+  -w \
+  ubuntu-24.04 m5d.medium
+```
+
 ## Documentation Structure
 
 - **[commands/REFERENCE.md](commands/REFERENCE.md)** - Complete CLI command reference
@@ -127,7 +143,9 @@ triton fwrule create -D "allow-https" \
 - **[patterns/load-balancing.md](patterns/load-balancing.md)** - Triton-Moirai load balancer setup
 - **[patterns/firewall-rules.md](patterns/firewall-rules.md)** - Firewall rule patterns
 - **[patterns/networking.md](patterns/networking.md)** - Network architecture patterns
+- **[patterns/metadata-provisioning.md](patterns/metadata-provisioning.md)** - User-script provisioning patterns
 - **[workflows/deploy-web-app.md](workflows/deploy-web-app.md)** - Complete 3-tier deployment example
+- **[workflows/deploy-kubernetes.md](workflows/deploy-kubernetes.md)** - k3s Kubernetes cluster deployment
 
 ## Key Best Practices
 
@@ -137,3 +155,5 @@ triton fwrule create -D "allow-https" \
 4. **Put databases on private networks** - never expose directly to public
 5. **Use Triton-Moirai** for load balancing with TLS termination
 6. **Graceful scaling**: set `triton.cns.status=down` before removing instances
+7. **Use user-scripts** for automated provisioning instead of manual SSH
+8. **Wait for cloud-init** in user-scripts: `cloud-init status --wait`

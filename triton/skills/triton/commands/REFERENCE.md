@@ -21,7 +21,47 @@ triton instance create [OPTIONS] IMAGE PACKAGE
 | `--firewall` | Enable cloud firewall |
 | `-w, --wait` | Wait for creation to complete |
 | `-v, --volume NAME:MOUNTPOINT` | Mount a volume |
-| `--script PATH` | User script to run on boot |
+| `--script PATH` | User script file to run on boot |
+
+**Metadata Options:**
+
+The `-m, --metadata` flag supports special keys for provisioning and configuration:
+
+| Metadata Key | Description |
+|--------------|-------------|
+| `user-script` | Shell script to run on first boot (cloud-init on Linux VMs) |
+| `user-data` | Cloud-init user-data (YAML format) |
+| `triton.cns.status` | CNS status: `up` (default) or `down` |
+| `cloud.tritoncompute:loadbalancer` | Enable load balancer mode (value: `true`) |
+| `cloud.tritoncompute:portmap` | Load balancer port mapping |
+| `cloud.tritoncompute:certificate_name` | TLS certificate for load balancer |
+
+**User-Script for Boot-Time Provisioning:**
+
+The `user-script` metadata runs a script on first boot. For Linux VMs, this integrates with cloud-init.
+
+```bash
+# Inline user-script
+triton instance create \
+  -n web-01 \
+  -m "user-script=#!/bin/bash
+set -e
+cloud-init status --wait
+apt-get update
+apt-get install -y nginx
+systemctl enable nginx
+touch /root/.provisioned
+" \
+  -w \
+  ubuntu-24.04 m5d.medium
+
+# Using --script flag (reads from file)
+triton instance create \
+  -n web-01 \
+  --script provision.sh \
+  -w \
+  ubuntu-24.04 m5d.medium
+```
 
 **Examples:**
 ```bash
