@@ -1,13 +1,23 @@
 {
   "name": "architecture-plugins",
   "owner": {
-    "name": "Architecture Docs"
+    "name": "nwilkens"
   },
   "plugins": [
     {
       "name": "software-architecture-diagram",
       "source": "./software-architecture-diagram",
       "description": "Create professional software architecture documentation with .drawio diagrams"
+    },
+    {
+      "name": "postgresql-dba",
+      "source": "./postgresql-dba",
+      "description": "PostgreSQL DBA toolkit for performance analysis, diagnostics, and optimization"
+    },
+    {
+      "name": "triton",
+      "source": "./triton",
+      "description": "Triton DataCenter infrastructure management using the triton CLI"
     }
   ]
 }
