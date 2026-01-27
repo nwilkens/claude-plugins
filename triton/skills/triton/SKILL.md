@@ -1,3 +1,8 @@
+---
+name: triton
+description: Manage Triton DataCenter infrastructure using the triton CLI. Use when creating instances, configuring networks, setting up CNS service discovery, managing firewall rules, or deploying load balancers.
+---
+
 # Triton CLI Infrastructure Management
 
 A skill for managing Triton DataCenter infrastructure using the `triton` CLI. Create instances, configure networks, set up CNS service discovery, manage firewall rules, and deploy load balancers.

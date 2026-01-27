@@ -1,0 +1,19 @@
+{
+  "name": "triton",
+  "description": "Triton DataCenter infrastructure management using the triton CLI. Create instances, configure networks, set up CNS service discovery, manage firewall rules, and deploy load balancers.",
+  "version": "1.0.0",
+  "author": {
+    "name": "nwilkens"
+  },
+  "keywords": [
+    "triton",
+    "joyent",
+    "smartos",
+    "infrastructure",
+    "cloud",
+    "cns",
+    "networking",
+    "firewall",
+    "load-balancer"
+  ]
+}
