@@ -19,6 +19,24 @@ PostgreSQL database administration toolkit for performance analysis and optimiza
 
 [View plugin documentation](./postgresql-dba/README.md)
 
+### ratatui-tui
+
+Build modern, interactive terminal user interfaces with Ratatui and Crossterm in Rust.
+
+**Features:**
+- Complete widget coverage (Paragraph, List, Table, Gauge, Sparkline, Tabs, Canvas)
+- Constraint-based layout system
+- Full styling guide (Style, Color, Modifier, Stylize trait)
+- Event handling patterns with Action enum
+- Async patterns with tokio, mpsc channels, CancellationToken
+- Error handling and terminal restoration
+- Testing patterns with TestBackend
+- Four complete example Cargo projects
+
+**Location:** `ratatui-tui/`
+
+[View plugin documentation](./ratatui-tui/README.md)
+
 ### software-architecture-diagram
 
 Create professional software architecture documentation with .drawio diagrams.
