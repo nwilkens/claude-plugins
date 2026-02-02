@@ -97,15 +97,6 @@ plugin-name/
 4. Add skills in `skills/` (optional)
 5. Document in `README.md`
 
-## Template Files (Legacy)
-
-The root directory also contains the original architecture documentation template files for reference:
-- `architecture/` - Example diagrams and documentation
-- `templates/` - Documentation templates
-- `docs/` - Guides and workflows
-
-These can be used directly or as reference for the plugin.
-
 ## License
 
 MIT License
