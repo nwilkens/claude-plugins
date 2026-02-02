@@ -1,78 +1,100 @@
-# Contributing to Architecture Documentation
+# Contributing to Claude Code Plugins
 
-Thank you for contributing to this architecture documentation template.
+Thank you for contributing to this plugin collection.
 
-## Quick Reference
+## Plugin Structure
 
-### File Organization
+Every plugin follows this standard structure:
 
-Every diagram needs three files:
-1. `.drawio` - The editable source diagram
-2. `.png` - The exported image (auto-generated or manual)
-3. `.md` - The documentation explaining the diagram
-
-### Directories
-
-| Directory | Purpose | Naming Pattern |
-|-----------|---------|----------------|
-| `architecture/` | High-level views | `{scope}-architecture.drawio` |
-| `architecture/layers/` | Tier details | `{tier-name}.drawio` |
-| `architecture/diagrams/` | Data flows | `{operation}-flow.drawio` |
-| `architecture/infrastructure/` | Deployments | `{environment}.drawio` |
-
-## Adding a New Diagram
-
-### 1. Create the .drawio File
-
-Use one of these tools:
-- [app.diagrams.net](https://app.diagrams.net) (online)
-- [VS Code Draw.io Extension](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)
-- [Desktop Application](https://www.diagrams.net/)
-
-### 2. Follow the Color Scheme
-
-See `architecture/README.md` for the complete color scheme:
-
-| Tier | Background | Border |
-|------|------------|--------|
-| API/Gateway | `#dbeafe` | `#3b82f6` |
-| Business Logic | `#e9d5ff` | `#8b5cf6` |
-| Data/Storage | `#d1fae5` | `#10b981` |
-| Services/Support | `#f1f5f9` | `#64748b` |
-
-### 3. Create Documentation
-
-Use templates from `templates/` directory:
-- Copy the appropriate template
-- Replace all placeholders
-- Add specific details for your diagram
-
-### 4. Export to PNG
-
-Option A: Push and let GitHub Actions export automatically
-
-Option B: Manual export:
-```bash
-# macOS
-/Applications/draw.io.app/Contents/MacOS/draw.io -x -f png -o output.png input.drawio
-
-# Linux
-drawio -x -f png -o output.png input.drawio
-
-# Windows
-& "C:\Program Files\draw.io\draw.io.exe" -x -f png -o output.png input.drawio
+```
+plugin-name/
+├── .claude-plugin/
+│   └── plugin.json          # Plugin metadata
+├── commands/                 # Slash commands (optional)
+│   └── command-name.md
+├── skills/                   # Skills (optional)
+│   └── skill-name/
+│       └── SKILL.md
+└── README.md                 # Plugin documentation
 ```
 
-### 5. Update the Index
+## Adding a New Plugin
 
-Add your new diagram to `architecture/README.md` in the appropriate section.
+### 1. Create the Plugin Directory
 
-## Updating Existing Diagrams
+Create a new directory with your plugin name (lowercase with hyphens):
 
-1. Edit the `.drawio` file
-2. Export new `.png` (or push to trigger GitHub Actions)
-3. Update the `.md` documentation if needed
-4. Commit all changed files together
+```bash
+mkdir my-plugin-name
+```
+
+### 2. Create plugin.json
+
+Create `.claude-plugin/plugin.json` with metadata:
+
+```json
+{
+  "name": "my-plugin-name",
+  "description": "Brief description of what the plugin does",
+  "version": "1.0.0",
+  "author": {
+    "name": "your-username"
+  },
+  "keywords": ["relevant", "keywords"]
+}
+```
+
+### 3. Add Commands (Optional)
+
+Commands are invoked via slash commands (e.g., `/my-command`).
+
+Create `commands/my-command.md`:
+
+```markdown
+# Command Name
+
+Description of what the command does.
+
+## Usage
+
+Instructions for using the command.
+```
+
+### 4. Add Skills (Optional)
+
+Skills are auto-invoked based on context.
+
+Create `skills/my-skill/SKILL.md`:
+
+```markdown
+# Skill Name
+
+Description of when and how to use this skill.
+
+## Patterns
+
+Examples and patterns for the skill.
+```
+
+### 5. Create README.md
+
+Document your plugin with:
+- Overview of the plugin's purpose
+- Features list
+- Usage instructions
+- Examples
+
+### 6. Register in Marketplace
+
+Add your plugin to `.claude-plugin/marketplace.json`:
+
+```json
+{
+  "name": "my-plugin-name",
+  "source": "./my-plugin-name",
+  "description": "Brief description"
+}
+```
 
 ## Commit Guidelines
 
@@ -85,63 +107,38 @@ Longer explanation if needed.
 ```
 
 Types:
+- `feat`: New plugin or feature
+- `fix`: Bug fixes
 - `docs`: Documentation changes
-- `diagram`: New or updated diagram
-- `fix`: Fixes to documentation or diagrams
-- `template`: Changes to templates
-- `ci`: Changes to GitHub Actions
+- `refactor`: Code restructuring
+- `chore`: Maintenance tasks
 
 ### Examples
 
 ```
-diagram: Add authentication flow diagram
+feat: Add kubernetes plugin for cluster management
 
-Creates auth-flow.drawio showing the complete authentication
-process from client request to session creation.
+Provides commands for common kubectl operations and
+deployment patterns.
 ```
 
 ```
-docs: Update API tier documentation
+docs: Update postgresql-dba README with examples
 
-- Add rate limiting component
-- Update component table
-- Add monitoring metrics section
+- Add query optimization examples
+- Include index strategy recommendations
 ```
-
-## Style Guidelines
-
-### Diagrams
-
-- Use consistent spacing (align to grid)
-- Group related components visually
-- Use swimlanes for multi-tier flows
-- Include a title in the diagram
-- Number steps in flow diagrams
-
-### Documentation
-
-- Start with an overview section
-- Include component tables with Technology and Purpose
-- Cross-reference related diagrams
-- Use ASCII diagrams for text-based representation when helpful
-
-### Naming
-
-- Lowercase with hyphens: `api-tier`, `create-flow`
-- Be descriptive but concise
-- Match names across `.drawio`, `.png`, and `.md` files
 
 ## Pull Request Process
 
 1. Create a branch for your changes
-2. Make your changes following the guidelines above
-3. Ensure all files are properly named and organized
-4. Test that links and cross-references work
+2. Follow the plugin structure guidelines
+3. Test your plugin locally
+4. Ensure documentation is complete
 5. Submit a pull request with a clear description
 
 ## Questions?
 
 If you're unsure about anything:
-1. Check existing diagrams for patterns to follow
-2. Review the templates in `templates/`
-3. Open an issue for discussion
+1. Check existing plugins for patterns to follow
+2. Open an issue for discussion
