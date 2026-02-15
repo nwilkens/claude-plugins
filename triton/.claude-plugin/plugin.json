@@ -1,7 +1,7 @@
 {
   "name": "triton",
-  "description": "Triton DataCenter infrastructure management using the triton CLI. Create instances, configure networks, set up CNS service discovery, manage firewall rules, and deploy load balancers.",
-  "version": "1.0.0",
+  "description": "Triton DataCenter infrastructure management. Includes triton CLI skill and CloudAPI REST skill for creating instances, configuring networks, CNS service discovery, firewall rules, load balancers, and full deployment workflows.",
+  "version": "1.1.0",
   "author": {
     "name": "nwilkens"
   },
@@ -14,6 +14,10 @@
     "cns",
     "networking",
     "firewall",
-    "load-balancer"
+    "load-balancer",
+    "cloudapi",
+    "rest-api",
+    "deployment",
+    "kubernetes"
   ]
 }
