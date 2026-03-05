@@ -53,6 +53,29 @@ Create professional software architecture documentation with .drawio diagrams.
 
 [View plugin documentation](./software-architecture-diagram/README.md)
 
+### manta-admin
+
+Manta object storage administration and troubleshooting toolkit.
+
+**Features:**
+- Full Manta stack diagnostics (loadbalancer, webapi, buckets-api, moray, postgres, storage)
+- Health check failure diagnosis workflow
+- Storage node (mako/nginx) tuning via SAPI
+- Request tracing through muskie logs
+- HAProxy routing and backend configuration
+
+**Location:** `manta-admin/`
+
+[View plugin documentation](./manta-admin/README.md)
+
+### triton
+
+Triton DataCenter infrastructure management using the triton CLI.
+
+**Location:** `triton/`
+
+[View plugin documentation](./triton/README.md)
+
 ## Installation
 
 ### Using as a Marketplace

@@ -23,6 +23,11 @@
       "name": "ratatui-tui",
       "source": "./ratatui-tui",
       "description": "Build terminal user interfaces with Ratatui and Crossterm in Rust"
+    },
+    {
+      "name": "manta-admin",
+      "source": "./manta-admin",
+      "description": "Administer and troubleshoot Manta object storage infrastructure"
     }
   ]
 }
