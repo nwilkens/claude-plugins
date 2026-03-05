@@ -1,0 +1,23 @@
+{
+  "name": "manta-admin",
+  "description": "Manta object storage administration and troubleshooting. Diagnose health check failures, investigate service issues, tune storage node configuration, and manage Manta services via SAPI.",
+  "version": "1.0.0",
+  "author": {
+    "name": "nwilkens"
+  },
+  "keywords": [
+    "manta",
+    "object-storage",
+    "mako",
+    "muskie",
+    "webapi",
+    "buckets-api",
+    "haproxy",
+    "nginx",
+    "sapi",
+    "moray",
+    "postgres",
+    "smartos",
+    "triton"
+  ]
+}
